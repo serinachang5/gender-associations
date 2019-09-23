@@ -3,8 +3,8 @@ from nltk import sent_tokenize
 import pickle
 import spacy
 
-PATH_TO_CELEB_PREPROCESSED = '../preprocessed/celeb/'
-PATH_TO_PROF_PREPROCESSED = '../preprocessed/professor/'
+PATH_TO_CELEB_PROCESSED = '../processed/celeb/'
+PATH_TO_PROF_PROCESSED = '../processed/professor/'
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -17,8 +17,8 @@ def make_celeb_toks_per_text(gender, continue_work=True):
     continue_work is True).
     """
     if continue_work:
-        old_toks_per_article = pickle.load(open(PATH_TO_CELEB_PREPROCESSED + '{}_toks_per_article.pkl'.format(gender), 'rb'))
-        old_toks_per_sent = pickle.load(open(PATH_TO_CELEB_PREPROCESSED + '{}_toks_per_sent.pkl'.format(gender), 'rb'))
+        old_toks_per_article = pickle.load(open(PATH_TO_CELEB_PROCESSED + '{}_toks_per_article.pkl'.format(gender), 'rb'))
+        old_toks_per_sent = pickle.load(open(PATH_TO_CELEB_PROCESSED + '{}_toks_per_sent.pkl'.format(gender), 'rb'))
         old_article_ids = set([tuple[0] for tuple in old_toks_per_article])
     else:
         old_toks_per_article = []
@@ -39,9 +39,9 @@ def make_celeb_toks_per_text(gender, continue_work=True):
     toks_per_article, toks_per_sent, sent_ids = texts_to_pos_toks(article_ids, articles, verbose=True)
     print('Done! {} new articles, {} new sentences.'.format(len(toks_per_article), len(toks_per_sent)))
     new_toks_per_article = list(zip(article_ids, toks_per_article))
-    pickle.dump(old_toks_per_article + new_toks_per_article, open(PATH_TO_CELEB_PREPROCESSED + '{}_toks_per_article.pkl'.format(gender), 'wb'))
+    pickle.dump(old_toks_per_article + new_toks_per_article, open(PATH_TO_CELEB_PROCESSED + '{}_toks_per_article.pkl'.format(gender), 'wb'))
     new_toks_per_sent = list(zip(sent_ids, toks_per_sent))
-    pickle.dump(old_toks_per_sent + new_toks_per_sent, open(PATH_TO_CELEB_PREPROCESSED + '{}_toks_per_sent.pkl'.format(gender), 'wb'))
+    pickle.dump(old_toks_per_sent + new_toks_per_sent, open(PATH_TO_CELEB_PROCESSED + '{}_toks_per_sent.pkl'.format(gender), 'wb'))
 
 def make_prof_toks_per_text(gender, continue_work=True):
     """
@@ -53,8 +53,8 @@ def make_prof_toks_per_text(gender, continue_work=True):
     """
     dl = ProfDataLoader()
     if continue_work:
-        old_toks_per_review = pickle.load(open(PATH_TO_PROF_PREPROCESSED + '{}_toks_per_review.pkl'.format(gender), 'rb'))
-        old_toks_per_sent = pickle.load(open(PATH_TO_PROF_PREPROCESSED + '{}_toks_per_sent.pkl'.format(gender), 'rb'))
+        old_toks_per_review = pickle.load(open(PATH_TO_PROF_PROCESSED + '{}_toks_per_review.pkl'.format(gender), 'rb'))
+        old_toks_per_sent = pickle.load(open(PATH_TO_PROF_PROCESSED + '{}_toks_per_sent.pkl'.format(gender), 'rb'))
         old_review_ids = set([tuple[0] for tuple in old_toks_per_review])
     else:
         old_toks_per_review = []
@@ -75,9 +75,9 @@ def make_prof_toks_per_text(gender, continue_work=True):
     toks_per_review, toks_per_sent, sent_ids = texts_to_pos_toks(review_ids, reviews, verbose=True)
     print('Done! {} new reviews, {} new sentences.'.format(len(toks_per_review), len(toks_per_sent)))
     new_toks_per_review = list(zip(review_ids, toks_per_review))
-    pickle.dump(old_toks_per_review + new_toks_per_review, open(PATH_TO_PROF_PREPROCESSED + '{}_toks_per_review.pkl'.format(gender), 'wb'))
+    pickle.dump(old_toks_per_review + new_toks_per_review, open(PATH_TO_PROF_PROCESSED + '{}_toks_per_review.pkl'.format(gender), 'wb'))
     new_toks_per_sent = list(zip(sent_ids, toks_per_sent))
-    pickle.dump(old_toks_per_sent + new_toks_per_sent, open(PATH_TO_PROF_PREPROCESSED + '{}_toks_per_sent.pkl'.format(gender), 'wb'))
+    pickle.dump(old_toks_per_sent + new_toks_per_sent, open(PATH_TO_PROF_PROCESSED + '{}_toks_per_sent.pkl'.format(gender), 'wb'))
 
 def texts_to_pos_toks(text_ids, texts, verbose=False):
     """

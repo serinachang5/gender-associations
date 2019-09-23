@@ -8,7 +8,7 @@ from collections import Counter
 import time
 
 DOMAIN = 'https://www.ratemyprofessors.com'
-PATH_TO_CORPUS = '../../corpus/'
+PATH_TO_CORPUS = '../../data/professor/'
 COLUMBIA_ID = 278
 
 def prep_query_by_school_driver():
